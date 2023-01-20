@@ -14,7 +14,7 @@ TEST_CASE("Multiplication and sum of Matrix","[multSum()]"){
         mat1[1][0] = 3; mat1[1][1] = 4;
 
         // 1*1 + 2*2 + 3*3 + 4*4 = 1 + 4 + 9 + 16 = 30
-        double result = multSum(mat1,mat1);
+        double result = matrix_tools::multSum(mat1,mat1);
 
         CHECK(result == 30);
     }
@@ -53,7 +53,7 @@ TEST_CASE("Multiplication and sum of Matrix","[multSum()]"){
         // 81*81+82*82+83*83+84*84+85*85+86*86+87*87+88*88+89*89+90*90+
         // 91*91+92*92+93*93+94*94+95*95+96*96+97*97+98*98+99*99+100*100 = 338350
         
-        double result = multSum(mat1,mat1);
+        double result = matrix_tools::multSum(mat1,mat1);
 
         CHECK(result == 338350);
     }
@@ -73,14 +73,14 @@ TEST_CASE("segment","[segment()]"){
         mat1[1][0] = 4; mat1[1][1] = 5; mat1[1][2] = 6;
         mat1[2][0] = 7; mat1[2][1] = 8; mat1[2][2] = 9;
 
-        Matrix result1 = segment(mat1,0,0,1,1);
+        Matrix result1 = matrix_tools::segment(mat1,0,0,1,1);
 
         CHECK(result1[0][0] == 1);
         CHECK(result1[0][1] == 2);
         CHECK(result1[1][0] == 4);
         CHECK(result1[1][1] == 5);
 
-        Matrix result2 = segment(mat1,1,1,2,2);
+        Matrix result2 = matrix_tools::segment(mat1,1,1,2,2);
 
         CHECK(result2[0][0] == 5);
         CHECK(result2[0][1] == 6);
