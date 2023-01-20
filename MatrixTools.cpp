@@ -1,3 +1,9 @@
+//   Author Name: Jean-Luc DeRieux
+//  Date Created: 01/14/2023
+//         About: Function declartions for matrix tools created to manipulate matrix objects
+// Last Modified: 01/20/2023
+//      Modified: Added header to keep track of file
+
 #include "MatrixTools.hpp"
 
 namespace matrix_tools {

@@ -1,5 +1,5 @@
 cmake_minimum_required(VERSION 3.5...3.22)
-project(CNN CXX)
+project(ML_CNN_V1)
 #-------------------------
 
 add_executable(matrixTesting

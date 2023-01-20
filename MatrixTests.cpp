@@ -1,8 +1,13 @@
+//   Author Name: Jean-Luc DeRieux
+//  Date Created: 01/14/2023
+//         About: Tests to verify Matrix object member functionality
+// Last Modified: 01/20/2023
+//      Modified: Added header to keep track of file
+
 #define CATCH_CONFIG_MAIN
 #include "catch.hpp"
 #include "Matrix.hpp"
 #include "utility"
-
 
 TEST_CASE("Matrix Creation - 2x2 ","[MATRIX]"){
 

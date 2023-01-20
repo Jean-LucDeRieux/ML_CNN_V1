@@ -1,6 +1,11 @@
+//   Author Name: Jean-Luc DeRieux
+//  Date Created: 01/14/2023
+//         About: Tests the functionality of the matrix tools created to manipulate matrix objects
+// Last Modified: 01/20/2023
+//      Modified: Added header to keep track of file
+
 #include "catch.hpp"
 #include "MatrixTools.hpp"
-
 
 TEST_CASE("Multiplication and sum of Matrix","[multSum()]"){
 

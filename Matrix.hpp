@@ -1,6 +1,6 @@
 //   Author Name: Jean-Luc DeRieux
 //  Date Created: 01/14/2023
-//         About: Creates a matrix object which can be used for Convolution
+//         About: Creates a matrix object which can be used for convolution
 // Last Modified: 01/20/2023
 //      Modified: Changed #define Guard and added Move/Copy operations to meet Google C++ Style Guide 
 

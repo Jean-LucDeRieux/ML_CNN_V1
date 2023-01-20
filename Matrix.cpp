@@ -1,3 +1,9 @@
+//   Author Name: Jean-Luc DeRieux
+//  Date Created: 01/14/2023
+//         About: Function declartions to create a matrix object which can be used for convolution
+// Last Modified: 01/20/2023
+//      Modified: Added header to keep track of file
+
 #include "Matrix.hpp"
 
 Matrix::Matrix(std::size_t rows, std::size_t cols){
