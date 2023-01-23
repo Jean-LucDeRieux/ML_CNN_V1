@@ -1,6 +1,6 @@
 Project: C++ Convolutional Neural Network
 Developer: Jean-Luc DeRieux
-Editied: 01/20/2023
+Editied: 01/23/2023
 
 
 About: Convolutional Neural Network (CNN) are used for classification. As an examle this could be used to classify images of Dogs or Cats.
@@ -47,7 +47,7 @@ Note: Stochastic gradient descent (SGD) is used for weights and biases to update
 
 
 To build the program on a Windows system, the following steps should be taken:
-    1.)  Open the Command Prompt by tapping the Windows button and typing "CMD".
+    1.) Open the Command Prompt by tapping the Windows button and typing "CMD" and tapping enter.
     2.) Change the directory of the Command Prompt to the desired location for the cloned machine learning model.
     3.) Type "git clone https://github.com/Jean-LucDeRieux/ML_CNN_V1.git" to clone the program from Github.
     4.) Type "cd ML_CNN_V1" to navigate into the cloned directory.

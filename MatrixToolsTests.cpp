@@ -1,8 +1,8 @@
 //   Author Name: Jean-Luc DeRieux
 //  Date Created: 01/14/2023
 //         About: Tests the functionality of the matrix tools created to manipulate matrix objects
-// Last Modified: 01/20/2023
-//      Modified: Added header to keep track of file
+// Last Modified: 01/23/2023
+//      Modified: Added tests for Convolution, Average and Maximum for both pooling
 
 #include "catch.hpp"
 #include "MatrixTools.hpp"
@@ -65,7 +65,7 @@ TEST_CASE("Multiplication and sum of Matrix","[multSum()]"){
 
 }
 
-TEST_CASE("segment","[segment()]"){
+TEST_CASE("Segment","[segment()]"){
 
     SECTION("Simple segment() test"){
         Matrix mat1(3,3);
@@ -97,13 +97,179 @@ TEST_CASE("segment","[segment()]"){
 
 TEST_CASE("Convolution","[conv()]"){
 
-    SECTION("Simple conv() test"){
-      
+    SECTION("Simple conv() test - input(4,4) and kernal(3,3)"){
+        Matrix mat1(4,4);
+        Matrix kernal1(3,3);
+        
+        // [ 1, 2, 3,  4]
+        // [ 2, 4, 5,  6]
+        // [ 3, 6, 7,  8]
+        // [ 4, 8, 9, 10]  Matrix
+        
+        // [ 0, 1, 0]
+        // [ 1, 1, 1]
+        // [ 0, 1, 0] Kernal
+        
+        // [Rows][Cols]
+        mat1[0][0] = 1; mat1[0][1] = 2; mat1[0][2] = 3; mat1[0][3] = 4;
+        mat1[1][0] = 2; mat1[1][1] = 4; mat1[1][2] = 5; mat1[1][3] = 6;
+        mat1[2][0] = 3; mat1[2][1] = 6; mat1[2][2] = 7; mat1[2][3] = 8;
+        mat1[3][0] = 4; mat1[3][1] = 8; mat1[3][2] = 9; mat1[3][3] = 10;
+
+        kernal1[0][0] = 0; kernal1[0][1] = 1; kernal1[0][2] = 0;
+        kernal1[1][0] = 1; kernal1[1][1] = 1; kernal1[1][2] = 1;
+        kernal1[2][0] = 0; kernal1[2][1] = 1; kernal1[2][2] = 0;
+       
+        Matrix output = matrix_tools::conv(mat1,kernal1);
+
+        CHECK( output(0,0) == 19);
+        CHECK( output(0,1) == 25);
+        CHECK( output(1,0) == 28);
+        CHECK( output(1,1) == 35);
     }
 
-    SECTION("Complex conv() test"){
- 
+    
+    SECTION("Simple conv() test - input(5,5) and kernal(2,2)"){
+        Matrix mat1(5,5);
+        Matrix kernal1(2,2);
+        
+        // [ 1,  2,  3,  4, 5]
+        // [ 2, 19,  5, 16, 2]
+        // [ 3,  6, 30,  8, 3]
+        // [24,  8,  9, 10, 4]
+        // [ 5,  4,  3,  2, 5] Matrix
+        
+        // [ 0, 1, 0]
+        // [ 1, 1, 1]
+        // [ 0, 1, 0] Kernal
+        
+        // [Rows][Cols]
+        mat1[0][0] = 1; mat1[0][1] = 2; mat1[0][2] = 3; mat1[0][3] = 4; mat1[0][4] = 5;
+        mat1[1][0] = 2; mat1[1][1] = 19; mat1[1][2] = 5; mat1[1][3] = 16; mat1[1][4] = 2;
+        mat1[2][0] = 3; mat1[2][1] = 6; mat1[2][2] = 30; mat1[2][3] = 8; mat1[2][4] = 3;
+        mat1[3][0] = 24; mat1[3][1] = 8; mat1[3][2] = 9; mat1[3][3] = 10; mat1[3][4] = 4;
+        mat1[4][0] = 5; mat1[4][1] = 4; mat1[4][2] = 3; mat1[4][3] = 2; mat1[4][4] = 5;
+
+        kernal1[0][0] = 0; kernal1[0][1] = 1;
+        kernal1[1][0] = 1; kernal1[1][1] = 0;
+        
+        Matrix output = matrix_tools::conv(mat1,kernal1);
+
+        CHECK( output(0,0) == 4);
+        CHECK( output(0,1) == 22);
+        CHECK( output(0,2) == 9);
+        CHECK( output(0,3) == 21);
+
+        CHECK( output(1,0) == 22);
+        CHECK( output(1,1) == 11);
+        CHECK( output(1,2) == 46);
+        CHECK( output(1,3) == 10);
+
+        CHECK( output(2,0) == 30);
+        CHECK( output(2,1) == 38);
+        CHECK( output(2,2) == 17);
+        CHECK( output(2,3) == 13);
+
+        CHECK( output(3,0) == 13);
+        CHECK( output(3,1) == 13);
+        CHECK( output(3,2) == 13);
+        CHECK( output(3,3) == 6);
+        
+    
     }
+
+    SECTION("Simple conv() test - input(5,5) and kernal(3,3)"){
+        Matrix mat1(5,5);
+        Matrix kernal1(3,3);
+        
+        // [ 1,  2,  3,  4, 5]
+        // [ 2, 19,  5, 16, 2]
+        // [ 3,  6, 30,  8, 3]
+        // [24,  8,  9, 10, 4]
+        // [ 5,  4,  3,  2, 5] Matrix
+        
+        // [ 0, 1, 0]
+        // [ 1, 1, 1]
+        // [ 0, 1, 0] Kernal
+        
+        // [Rows][Cols]
+        mat1[0][0] = 1; mat1[0][1] = 2; mat1[0][2] = 3; mat1[0][3] = 4; mat1[0][4] = 1;
+        mat1[1][0] = 2; mat1[1][1] = 19; mat1[1][2] = 5; mat1[1][3] = 16; mat1[1][4] = 2;
+        mat1[2][0] = 3; mat1[2][1] = 6; mat1[2][2] = 30; mat1[2][3] = 8; mat1[2][4] = 3;
+        mat1[3][0] = 24; mat1[3][1] = 8; mat1[3][2] = 9; mat1[3][3] = 10; mat1[3][4] = 4;
+        mat1[4][0] = 5; mat1[4][1] = 4; mat1[4][2] = 3; mat1[4][3] = 2; mat1[4][4] = 5;
+
+        kernal1[0][0] = 0; kernal1[0][1] = 1; kernal1[0][2] = 0;
+        kernal1[1][0] = 1; kernal1[1][1] = 1; kernal1[1][2] = 1;
+        kernal1[2][0] = 0; kernal1[2][1] = 1; kernal1[2][2] = 0;
+        
+        Matrix output = matrix_tools::conv(mat1,kernal1);
+
+        CHECK( output(0,0) == 34);
+        CHECK( output(0,1) == 73);
+        CHECK( output(0,2) == 35);
+        CHECK( output(1,0) == 66);
+        CHECK( output(1,1) == 58);
+        CHECK( output(1,2) == 67);
+        CHECK( output(2,0) == 51);
+        CHECK( output(2,1) == 60);
+        CHECK( output(2,2) == 33);
+        
+    
+    }
+
 
 }
 
+TEST_CASE("Average and Max","[avg(), max()]"){
+
+    SECTION("Simple avg() and max() test"){
+        Matrix mat1(2,2);
+
+        mat1[0][0] = 1; mat1[0][1] = 2;
+        mat1[1][0] = 3; mat1[1][1] = 4;
+
+        CHECK(matrix_tools::avg(mat1) == 2.5);
+        CHECK(matrix_tools::max(mat1) == 4);
+
+        mat1[0][0] = 30;
+
+        CHECK(matrix_tools::avg(mat1) == 9.75);
+        CHECK(matrix_tools::max(mat1) == 30);
+    }
+    
+}
+
+TEST_CASE("maxPooling","[maxPooling(), max()]"){
+
+    SECTION("Simple avgPool() and maxPool() test"){
+        Matrix mat1(4,4);
+        Matrix kernal1(3,3);
+        
+        // [ 1, 2, 3,  4]
+        // [ 2, 4, 5,  6]
+        // [ 3, 6, 7,  8]
+        // [ 4, 8, 9, 10]  Matrix
+        
+        // [Rows][Cols]
+        mat1[0][0] = 1; mat1[0][1] = 2; mat1[0][2] = 3; mat1[0][3] = 4;
+        mat1[1][0] = 2; mat1[1][1] = 4; mat1[1][2] = 5; mat1[1][3] = 6;
+        mat1[2][0] = 3; mat1[2][1] = 6; mat1[2][2] = 7; mat1[2][3] = 8;
+        mat1[3][0] = 4; mat1[3][1] = 8; mat1[3][2] = 9; mat1[3][3] = 10;
+
+        Matrix avgOutput = matrix_tools::avgPool(mat1);
+
+        // CHECK(avgOutput(0,0) == 2.25);
+        // CHECK(avgOutput(0,1) == 4.5);
+        // CHECK(avgOutput(1,0) == 5.25);
+        // CHECK(avgOutput(1,1) == 8.5);
+
+        Matrix maxOutput = matrix_tools::maxPool(mat1);
+
+        // CHECK(maxOutput(0,0) == 4);
+        // CHECK(maxOutput(0,1) == 6);
+        // CHECK(maxOutput(1,0) == 8);
+        // CHECK(maxOutput(1,1) == 10);
+    }
+    
+}
