@@ -1,7 +1,7 @@
 //   Author Name: Jean-Luc DeRieux
 //  Date Created: 01/14/2023
 //         About: Function declartions for matrix tools created to manipulate matrix objects
-// Last Modified: 01/23/2023
+// Last Modified: 02/07/2023
 //      Modified: Added Avg and Max pooling
 
 #include "MatrixTools.hpp"
