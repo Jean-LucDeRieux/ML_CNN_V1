@@ -1,11 +1,12 @@
 //   Author Name: Jean-Luc DeRieux
 //  Date Created: 01/14/2023
 //         About: Tests the functionality of the matrix tools created to manipulate matrix objects
-// Last Modified: 01/23/2023
-//      Modified: Added tests for Convolution, Average and Maximum for both pooling
+// Last Modified: 02/07/2023
+//      Modified: Added tests for Avg and Max pooling
 
 #include "catch.hpp"
 #include "MatrixTools.hpp"
+#include <cmath>
 
 TEST_CASE("Multiplication and sum of Matrix","[multSum()]"){
 
@@ -244,7 +245,6 @@ TEST_CASE("maxPooling","[maxPooling(), max()]"){
 
     SECTION("Simple avgPool() and maxPool() test"){
         Matrix mat1(4,4);
-        Matrix kernal1(3,3);
         
         // [ 1, 2, 3,  4]
         // [ 2, 4, 5,  6]
@@ -257,19 +257,97 @@ TEST_CASE("maxPooling","[maxPooling(), max()]"){
         mat1[2][0] = 3; mat1[2][1] = 6; mat1[2][2] = 7; mat1[2][3] = 8;
         mat1[3][0] = 4; mat1[3][1] = 8; mat1[3][2] = 9; mat1[3][3] = 10;
 
-        Matrix avgOutput = matrix_tools::avgPool(mat1);
+        Matrix avgOutput = matrix_tools::avgPool(mat1,2,2);
 
-        // CHECK(avgOutput(0,0) == 2.25);
-        // CHECK(avgOutput(0,1) == 4.5);
-        // CHECK(avgOutput(1,0) == 5.25);
-        // CHECK(avgOutput(1,1) == 8.5);
+        CHECK(avgOutput(0,0) == 2.25);
+        CHECK(avgOutput(0,1) == 4.5);
+        CHECK(avgOutput(1,0) == 5.25);
+        CHECK(avgOutput(1,1) == 8.5);
 
-        Matrix maxOutput = matrix_tools::maxPool(mat1);
+        Matrix maxOutput = matrix_tools::maxPool(mat1,2,2);
 
-        // CHECK(maxOutput(0,0) == 4);
-        // CHECK(maxOutput(0,1) == 6);
-        // CHECK(maxOutput(1,0) == 8);
-        // CHECK(maxOutput(1,1) == 10);
+        CHECK(maxOutput(0,0) == 4);
+        CHECK(maxOutput(0,1) == 6);
+        CHECK(maxOutput(1,0) == 8);
+        CHECK(maxOutput(1,1) == 10);
+    }
+
+    SECTION("Complex avgPool() and maxPool() test"){
+        Matrix mat1(6,6);
+        
+        // [ 1, 2, 3,  4,  5,  6]
+        // [ 2, 4, 5,  6,  4,  8]
+        // [ 3, 6, 7,  8,  4,  10]
+        // [ 4, 8, 9, 10, 11,  12]
+        // [ 5, 6, 7,  8,  9,  10]  
+        // [ 6, 7, 8,  9,  10, 11]  Matrix
+        
+        // [Rows][Cols]
+        mat1[0][0] = 1; mat1[0][1] = 2; mat1[0][2] = 3; mat1[0][3] = 4;mat1[0][4] = 5;mat1[0][5] = 6;
+        mat1[1][0] = 2; mat1[1][1] = 4; mat1[1][2] = 5; mat1[1][3] = 6;mat1[1][4] = 4;mat1[1][5] = 8;
+        mat1[2][0] = 3; mat1[2][1] = 6; mat1[2][2] = 7; mat1[2][3] = 8;mat1[2][4] = 4;mat1[2][5] = 10;
+        mat1[3][0] = 4; mat1[3][1] = 8; mat1[3][2] = 9; mat1[3][3] = 10;mat1[3][4] = 11;mat1[3][5] = 12;
+        mat1[4][0] = 5; mat1[4][1] = 6; mat1[4][2] = 7; mat1[4][3] = 8;mat1[4][4] = 9;mat1[4][5] = 10;
+        mat1[5][0] = 6; mat1[5][1] = 7; mat1[5][2] = 8; mat1[5][3] = 9;mat1[5][4] = 10;mat1[5][5] = 11;
+
+        Matrix avgOutput1 = matrix_tools::avgPool(mat1,3,2);
+
+        CHECK(avgOutput1(0,0) == 2.25);
+        CHECK(avgOutput1(0,1) == 4.5);
+        CHECK(avgOutput1(0,2) == 5.75);
+        CHECK(avgOutput1(1,0) == 5.25);
+        CHECK(avgOutput1(1,1) == 8.5);
+        CHECK(avgOutput1(1,2) == 9.25);
+        CHECK(avgOutput1(2,0) == 6);
+        CHECK(avgOutput1(2,1) == 8);
+        CHECK(avgOutput1(2,2) == 10);
+
+
+        Matrix maxOutput1 = matrix_tools::maxPool(mat1,3,2);
+
+        CHECK(maxOutput1(0,0) == 4);
+        CHECK(maxOutput1(0,1) == 6);
+        CHECK(maxOutput1(0,2) == 8);
+        CHECK(maxOutput1(1,0) == 8);
+        CHECK(maxOutput1(1,1) == 10);
+        CHECK(maxOutput1(1,2) == 12);
+        CHECK(maxOutput1(2,0) == 7);
+        CHECK(maxOutput1(2,1) == 9);
+        CHECK(maxOutput1(2,2) == 11);
+
+        Matrix avgOutput2 = matrix_tools::avgPool(mat1,2,3);
+
+        double num = avgOutput2(0,0);
+        num = num * 100;
+        num = std::round(num);
+        num = num/100;
+        CHECK(num == 3.67);
+
+        num = avgOutput2(0,1);
+        num = num * 100;
+        num = std::round(num);
+        num = num/100;
+        CHECK(num == 6.11);
+
+        num = avgOutput2(1,0);
+        num = num * 100;
+        num = std::round(num);
+        num = num/100;
+        CHECK(num == 6.67);
+
+        num = avgOutput2(1,1);
+        num = num * 100;
+        num = std::round(num);
+        num = num/100;
+        CHECK(num == 10);
+
+        Matrix maxOutput2 = matrix_tools::maxPool(mat1,2,3);
+
+        CHECK(maxOutput2(0,0) == 7);
+        CHECK(maxOutput2(0,1) == 10);
+        CHECK(maxOutput2(1,0) == 9);
+        CHECK(maxOutput2(1,1) == 12);
+
     }
     
 }

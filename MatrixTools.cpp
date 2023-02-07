@@ -2,7 +2,7 @@
 //  Date Created: 01/14/2023
 //         About: Function declartions for matrix tools created to manipulate matrix objects
 // Last Modified: 01/23/2023
-//      Modified: Added convolution, average, maximum functionality and more comments
+//      Modified: Added Avg and Max pooling
 
 #include "MatrixTools.hpp"
 
@@ -166,24 +166,88 @@ namespace matrix_tools {
         return output;
     }
 
-    Matrix maxPool(const Matrix& mtrx){
+    Matrix maxPool(const Matrix& mtrx, std::size_t f, std::size_t s){
         
-        std::size_t n = std::sqrt(mtrx.size());
+        // If the input image matrix is of size “n x n” and if the output size 
+        //      “f x f” and we have defined padding as p then
+        //      Then the size of the output image matrix will be [(n + 2p -f)/s + 1]
+        std::size_t n = s;
 
-        Matrix output(n,n);
+        // Creates a new matrix based off of the downscaled matrix
+        Matrix output(f, f);
 
-        // TBD
+        // m x n = rows x columns
+        // n-segments
+        std::size_t staCol = 0;
+        std::size_t staRow = 0; 
+        std::size_t endCol = s-1;
+        std::size_t endRow = s-1; 
+
+        for (std::size_t row = 0; row < f; row++) {
+            for (std::size_t col = 0; col < f; col++) {
+
+                // Takes a segment from (x1, y1) and (x2, y2) and runs max to find the maximum value
+                output[row][col] = max(segment(mtrx, staRow, staCol, endRow, endCol));
+
+                // If the end column goes past the matrix size, move the segment down one segment-n and reset the column
+                if (endCol >= mtrx.dimensions().second-1) {
+                    staRow += s;
+                    endRow += s;
+                    staCol = 0;
+                    endCol = s-1;
+                }
+                else{
+
+                    // Move the n-segment to the right
+                    staCol += s;
+                    endCol += s;
+                }
+
+            }
+        }
 
         return output;
     }
 
-    Matrix avgPool(const Matrix& mtrx){
-       
-        std::size_t n = std::sqrt(mtrx.size());
+    Matrix avgPool(const Matrix& mtrx, std::size_t f, std::size_t s){
+        
+        // If the input image matrix is of size “n x n” and if the output size 
+        //      “f x f” and we have defined padding as p then
+        //      Then the size of the output image matrix will be [(n + 2p -f)/s + 1]
+        std::size_t n = s;
 
-        Matrix output(n,n);
+        // Creates a new matrix based off of the downscaled matrix
+        Matrix output(f, f);
 
-        // TBD
+        // m x n = rows x columns
+        // n-segments
+        std::size_t staCol = 0;
+        std::size_t staRow = 0;
+        std::size_t endCol = s-1;
+        std::size_t endRow = s-1; 
+
+        for (std::size_t row = 0; row < f; row++) {
+            for (std::size_t col = 0; col < f; col++) {
+
+                // Takes a segment from (x1, y1) and (x2, y2) and runs max to find the maximum value
+                output[row][col] = avg(segment(mtrx, staRow, staCol, endRow, endCol));
+
+                // If the end column goes past the matrix size, move the segment down one segment-n and reset the column
+                if (endCol >= mtrx.dimensions().second-1) {
+                    staRow += s;
+                    endRow += s;
+                    staCol = 0;
+                    endCol = s-1;
+                }
+                else{
+
+                    // Move the n-segment to the right
+                    staCol += s;
+                    endCol += s;
+                }
+
+            }
+        }
 
         return output;
     }

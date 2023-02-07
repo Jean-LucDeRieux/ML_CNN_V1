@@ -1,8 +1,8 @@
 //   Author Name: Jean-Luc DeRieux
 //  Date Created: 01/14/2023
 //         About: Non-member functions for matrix operations
-// Last Modified: 01/23/2023
-//      Modified: Changed the formating for some of the non-member functions
+// Last Modified: 02/07/2023
+//      Modified: Changed inputs for maxPool and avgPool to include output matrix desired size f and segment steps s
 
 #ifndef MATRIXTOOLS_HPP
 #define MATRIXTOOLS_HPP
@@ -30,10 +30,10 @@ namespace  matrix_tools{
     Matrix conv(const Matrix& mtrx, const Matrix& kernal);
 
     // Takes a 2D input matrix and runs the Max Pooling algorithm to downscale the matrix
-    Matrix maxPool(const Matrix& mtrx);
+    Matrix maxPool(const Matrix& mtrx, std::size_t f, std::size_t s);
 
     // Takes an input matrix and runs the Max Pooling algorithm to downscale the matrix
-    Matrix avgPool(const Matrix& mtrx);
+    Matrix avgPool(const Matrix& mtrx, std::size_t f, std::size_t s);
 }
 
 #endif //MATRIXTOOLS_HPP
